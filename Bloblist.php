@@ -20,6 +20,8 @@ class Bloblist extends \Modularity\Module
         $this->namePlural =   __('Bloblists', 'modularity');
         $this->description =  __('Outputs list of files from azure blob storage', 'modularity');
 
+        $this->getOptions();
+
         add_filter('acf/load_field/key=field_5b3b3e7d874b0', array($this, 'populateAcfFields'));
     }
 
@@ -28,17 +30,22 @@ class Bloblist extends \Modularity\Module
         return 'modularity-mod-bloblist.blade.php';
     }
 
-    //public function data() : array
-    //{
-    //    return get_fields($this->ID);
-    //}
-
     public function script()
     {
         // Not working :(
         // https://github.com/helsingborg-stad/Modularity/issues/34
         wp_register_script('mod-bloblist-js', plugins_url( '/assets/js/mod-bloblist.js', __FILE__ ), array(), '', true);
         wp_enqueue_script('mod-bloblist-js');
+    }
+
+    /**
+     * Returns data to view
+     * https://github.com/helsingborg-stad/Modularity/blob/7d435e3610d5cb25d984e6aaaeb3960b9c2ada56/modularity-custom-module-example/ImageModule.php#L23
+     * @return mixed
+     */
+    public function data() : array
+    {
+        return get_fields('tags');
     }
 
 
@@ -73,7 +80,6 @@ class Bloblist extends \Modularity\Module
     {
         $result = $this->getFacets();
         $result = json_decode($result->getBody()->getContents());
-        
         $tags = $result->{'@search.facets'}->tags;
 
         if (empty($tags)) {
@@ -88,6 +94,11 @@ class Bloblist extends \Modularity\Module
         }
 
         return $field;
+    }
+
+    public function getOptions()
+    {
+        var_dump();
     }
 
 }
