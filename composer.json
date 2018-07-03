@@ -1,0 +1,8 @@
+{
+    "name": "regionhalland/mod-accordion",
+    "description": "Accordion modularity component",
+    "type": "wordpress-plugin",
+    "license": "MIT",
+    "minimum-stability": "dev",
+    "require": {}
+}
