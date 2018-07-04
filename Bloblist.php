@@ -28,18 +28,8 @@ class Bloblist extends \Modularity\Module
         return 'modularity-mod-bloblist.blade.php';
     }
 
-    public function script()
-    {
-        // Not working :(
-        // https://github.com/helsingborg-stad/Modularity/issues/34
-        wp_register_script('mod-bloblist-js', plugins_url( '/assets/js/mod-bloblist.js', __FILE__ ), array(), '', true);
-        wp_enqueue_script('mod-bloblist-js');
-    }
-
-
     /**
-     * Returns data to view
-     * https://github.com/helsingborg-stad/Modularity/blob/7d435e3610d5cb25d984e6aaaeb3960b9c2ada56/modularity-custom-module-example/ImageModule.php#L23
+     * Returns data to the view
      * @return array
      */
     public function data() : array
@@ -48,7 +38,6 @@ class Bloblist extends \Modularity\Module
 
         return $data;
     }
-
 
     /**
      * Gets the checked categories of the provided post ID and returns a list
@@ -92,7 +81,6 @@ class Bloblist extends \Modularity\Module
         return $lists;
     }
 
-
     /**
      * Populate the ACF options field with tags
      * https://www.advancedcustomfields.com/resources/dynamically-populate-a-select-fields-choices/
@@ -124,7 +112,6 @@ class Bloblist extends \Modularity\Module
         return $field;
     }
 
-
     /**
      * Fetch things from Azure search service
      * @return object
@@ -137,5 +124,4 @@ class Bloblist extends \Modularity\Module
 
         return $result;
     }
-
 }

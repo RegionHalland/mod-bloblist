@@ -1,6 +1,6 @@
 {
-    "name": "regionhalland/mod-accordion",
-    "description": "Accordion modularity component",
+    "name": "regionhalland/mod-bloblist",
+    "description": "Modularity module to list files from Azure Blob Storage",
     "type": "wordpress-plugin",
     "license": "MIT",
     "minimum-stability": "dev",
