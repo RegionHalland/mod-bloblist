@@ -12,15 +12,13 @@ class Bloblist extends \Modularity\Module
     public $description = 'List files from azure blob storage by tag';
     public $templateDir = BLOBLIST_MODULE_PATH . 'templates';
 
-    private $azureApiKey = 'NO_ESPOSIBLE';
+    private $azureApiKey = '1570F8A4B2C7F2D6739EA20327335175';
 
     public function init()
     {
         $this->nameSingular = __('Bloblist', 'modularity');
         $this->namePlural =   __('Bloblists', 'modularity');
         $this->description =  __('Outputs list of files from azure blob storage', 'modularity');
-
-        $this->getOptions();
 
         add_filter('acf/load_field/key=field_5b3b3e7d874b0', array($this, 'populateAcfFields'));
     }
@@ -38,38 +36,62 @@ class Bloblist extends \Modularity\Module
         wp_enqueue_script('mod-bloblist-js');
     }
 
+
     /**
      * Returns data to view
      * https://github.com/helsingborg-stad/Modularity/blob/7d435e3610d5cb25d984e6aaaeb3960b9c2ada56/modularity-custom-module-example/ImageModule.php#L23
-     * @return mixed
+     * @return array
      */
     public function data() : array
     {
-        return get_fields('tags');
+        $data['lists'] = $this->getBlobList($this->ID);
+
+        return $data;
     }
 
 
     /**
-     * Get facets from Azure search service
-     * @return object
+     * Gets the checked categories of the provided post ID and returns a list
+     * @return array
      */
-    private function getFacets()
-    {
-        // Don't store this here
-        $url = 'NO_ESPOSIBLE';
-        $options = array(
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'api-key' => $this->azureApiKey
-            ]
-        );
-        
-        $client = new \GuzzleHttp\Client();
+    public function getBlobList($id)
+    { 
+        $fields = get_fields($id);
 
-        $result = $client->request('GET', $url, $options);
+        if (empty($fields['tags'])) {
+            return false;
+        }
 
-        return $result;
+        $lists = [];
+
+        foreach ($fields['tags'] as $tag) {
+
+            $list = [ 
+                'title' => $tag,
+                'blobs' => []
+            ];
+
+            $query = 'api-version=2016-09-01&search=' . $tag;
+
+            $result = $this->fetch( $query, array(
+                'headers' => [ 
+                    'Content-Type' => 'application/json', 
+                    'api-key' => $this->azureApiKey
+                ])
+            );
+
+            $result = json_decode($result->getBody()->getContents());
+
+            foreach($result->value as $path) {
+                $list['blobs'][] = base64_decode($path->metadata_storage_path);
+            }
+
+            $lists[] = $list;
+        };
+
+        return $lists;
     }
+
 
     /**
      * Populate the ACF options field with tags
@@ -78,7 +100,13 @@ class Bloblist extends \Modularity\Module
      */
     public function populateAcfFields($field)
     {
-        $result = $this->getFacets();
+        $result = $this->fetch( 'api-version=2016-09-01&facet=tags', array(
+            'headers' => [ 
+                'Content-Type' => 'application/json', 
+                'api-key' => $this->azureApiKey
+            ])
+        );
+
         $result = json_decode($result->getBody()->getContents());
         $tags = $result->{'@search.facets'}->tags;
 
@@ -96,9 +124,18 @@ class Bloblist extends \Modularity\Module
         return $field;
     }
 
-    public function getOptions()
+
+    /**
+     * Fetch things from Azure search service
+     * @return object
+     */
+    private function fetch($query, $options)
     {
-        var_dump();
+        $url = 'https://searchcontrolleddocuments.search.windows.net/indexes/azureblob-index/docs?' . $query;
+        $client = new \GuzzleHttp\Client();
+        $result = $client->request('GET', $url, $options);
+
+        return $result;
     }
 
 }

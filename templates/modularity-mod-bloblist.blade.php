@@ -1,8 +1,12 @@
-@if(isset($items))
-	<h3>{!! apply_filters('the_title', $post_title) !!}</h3>
-	<ul>
-		@foreach ($items as $item)
-			<li><a href="{{ $item['url'] }}">{{ $item['title'] }}</a></li>
-		@endforeach
-	</ul>
+@if(isset($lists) && !empty($lists))
+	@foreach ($lists as $list)
+	<div class="mb3">
+		<h3>{{ $list['title'] }}</h3>
+		<ul>
+			@foreach ($list['blobs'] as $blob)
+			<li><a href="{{ $blob }}">{{ $blob }}</a></li>
+			@endforeach
+		</ul>
+	</div>
+	@endforeach
 @endif
