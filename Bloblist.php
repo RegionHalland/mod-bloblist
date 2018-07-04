@@ -71,6 +71,8 @@ class Bloblist extends \Modularity\Module
 
             $result = json_decode($result->getBody()->getContents());
 
+            $list['count'] = count($result->value);
+
             foreach($result->value as $path) {
                 $list['blobs'][] = base64_decode($path->metadata_storage_path);
             }
