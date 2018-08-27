@@ -20,7 +20,7 @@ class Bloblist extends \Modularity\Module
         $this->namePlural =   __('Bloblists', 'modularity');
         $this->description =  __('Outputs list of files from azure blob storage', 'modularity');
 
-        add_filter('acf/load_field/key=field_5b3b3e7d874b0', array($this, 'populateAcfFields'));
+        add_filter('acf/load_field/key=field_5b7d3fa982d7e', array($this, 'populateAcfFields'));
     }
 
     public function template()
@@ -46,6 +46,8 @@ class Bloblist extends \Modularity\Module
     public function getBlobList($id)
     { 
         $fields = get_fields($id);
+
+        var_dump($fields['tags']);
 
         if (empty($fields['tags'])) {
             return false;

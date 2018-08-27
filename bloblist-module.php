@@ -19,7 +19,7 @@ add_action('Modularity', function() {
 	);
 
 	// Export and import ACF Fields
-	//$acfExportManager = new \AcfExportManager\AcfExportManager();
-	//$acfExportManager->setExportFolder(Bloblist_MODULE_PATH . 'acf/');
-	//$acfExportManager->import();
+	$acfExportManager = new \AcfExportManager\AcfExportManager();
+	$acfExportManager->setExportFolder(BLOBLIST_MODULE_PATH . 'acf/');
+	$acfExportManager->import();
 });
