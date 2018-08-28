@@ -1,0 +1,91 @@
+[{
+    "key": "group_5b7d3fa0952e9",
+    "title": "Bloblist",
+    "fields": [
+        {
+            "key": "field_5b7d4742a0e04",
+            "label": "Samling",
+            "name": "collection",
+            "type": "repeater",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "",
+            "min": 0,
+            "max": 0,
+            "layout": "table",
+            "button_label": "",
+            "sub_fields": [
+                {
+                    "key": "field_5b7d4753a0e05",
+                    "label": "Title",
+                    "name": "Title",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 0,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_5b7d3fa982d7e",
+                    "label": "Tags",
+                    "name": "tags",
+                    "type": "checkbox",
+                    "instructions": "V\u00e4lj taggar du vill h\u00e4mta dokument fr\u00e5n",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "medicin": "medicin",
+                        "forsakring": "forsakring",
+                        "magetarm": "magetarm",
+                        "sjuk": "sjuk",
+                        "tandvard": "tandvard"
+                    },
+                    "allow_custom": 0,
+                    "save_custom": 0,
+                    "default_value": [],
+                    "layout": "vertical",
+                    "toggle": 0,
+                    "return_format": "value"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "mod-bloblist"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": ""
+}]
+

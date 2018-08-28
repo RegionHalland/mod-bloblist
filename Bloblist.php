@@ -11,7 +11,6 @@ class Bloblist extends \Modularity\Module
     public $namePlural = 'Bloblists';
     public $description = 'List files from azure blob storage by tag';
     public $templateDir = BLOBLIST_MODULE_PATH . 'templates';
-
     private $azureApiKey = '1570F8A4B2C7F2D6739EA20327335175';
 
     public function init()

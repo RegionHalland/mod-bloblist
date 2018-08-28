@@ -21,5 +21,8 @@ add_action('Modularity', function() {
 	// Export and import ACF Fields
 	$acfExportManager = new \AcfExportManager\AcfExportManager();
 	$acfExportManager->setExportFolder(BLOBLIST_MODULE_PATH . 'acf/');
+	$acfExportManager->autoExport(array(
+		'mod_bloblist' => 'group_5b7d3fa0952e9'
+	));
 	$acfExportManager->import();
 });
