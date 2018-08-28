@@ -46,40 +46,43 @@ class Bloblist extends \Modularity\Module
     { 
         $fields = get_fields($id);
 
-        var_dump($fields['tags']);
-
-        if (empty($fields['tags'])) {
-            return false;
-        }
-
         $lists = [];
 
-        foreach ($fields['tags'] as $tag) {
+        foreach ($fields['collection'] as $collection) {
+            
+            if (empty($collection['tags'])) {
+                return false;
+            }
 
-            $list = [ 
-                'title' => $tag,
+            $list = [
+                'title' => $collection['Title'],
                 'blobs' => []
             ];
 
-            $query = 'api-version=2016-09-01&search=' . $tag;
+            foreach ($collection['tags'] as $tag) {
 
-            $result = $this->fetch( $query, array(
-                'headers' => [ 
-                    'Content-Type' => 'application/json', 
-                    'api-key' => $this->azureApiKey
-                ])
-            );
+                $query = 'api-version=2016-09-01&search=' . $tag;
 
-            $result = json_decode($result->getBody()->getContents());
+                $result = $this->fetch( $query, array(
+                    'headers' => [ 
+                        'Content-Type' => 'application/json', 
+                        'api-key' => $this->azureApiKey
+                    ])
+                );
 
-            $list['count'] = count($result->value);
+                $result = json_decode($result->getBody()->getContents());
 
-            foreach($result->value as $path) {
-                $list['blobs'][] = base64_decode($path->metadata_storage_path);
-            }
+                $list['count'] = count($result->value);
 
-            $lists[] = $list;
-        };
+                foreach($result->value as $path) {
+                    $list['blobs'][] = base64_decode($path->metadata_storage_path);
+                }
+
+                $lists[] = $list;
+            };
+
+           
+        }
 
         return $lists;
     }
